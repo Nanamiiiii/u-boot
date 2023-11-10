@@ -522,4 +522,28 @@ config SPL_LOAD_FIT_OPENSBI_OS_BOOT
 	  This is a shortcut boot flow, from u-boot SPL -> OpenSBI -> u-boot proper
 	  -> linux to u-boot SPL -> OpenSBI -> linux.
 
+config SPL_KEYSTONE_SECUREBOOT
+	bool "Secureboot for keystone enclave"
+	default n
+	depends on SPL && SPL_OPENSBI
+	help
+	  Enable secureboot feature for keystone enclave.
+	  This measure the SM binary and create keypair.
+
+config SPL_KEYSTONE_USE_TEST_KEYS
+	bool "Use test keys in keystone secureboot"
+	default y
+	depends on SPL_KEYSTONE_SECUREBOOT
+	help
+	  Use embedded test keys for keystone secureboot feature.
+	  On the practical environment, the platform needs to provide
+	  secure keystore. TEST USE ONLY.
+
+config SPL_KEYSTONE_USE_RNG
+	bool "Use hardware rng to generate random number"
+	default n
+	depends on SPL_KEYSTONE_SECUREBOOT && DM_RNG
+	help
+	  Use hardware rng device to generate random for keypair creation
+
 endmenu
