@@ -15,6 +15,7 @@
 #include <asm/smp.h>
 #include <opensbi.h>
 #include <linux/libfdt.h>
+#include <asm/keystone.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -65,6 +66,15 @@ void spl_invoke_opensbi(struct spl_image_info *spl_image)
 	ret = fit_image_get_entry(spl_image->fdt_addr, uboot_node, &uboot_entry);
 	if (ret)
 		ret = fit_image_get_load(spl_image->fdt_addr, uboot_node, &uboot_entry);
+	
+	/* Prepare for Keystone SM */
+#if CONFIG_IS_ENABLED(KEYSTONE_SECUREBOOT)
+	ret = keystone_init();
+	if (ret < 0) {
+		pr_err("Failed to prepare keystone sm\n");
+		hang();
+	}
+#endif
 
 	/* Prepare opensbi_info object */
 	opensbi_info.magic = FW_DYNAMIC_INFO_MAGIC_VALUE;

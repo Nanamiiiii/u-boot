@@ -44,3 +44,8 @@ obj-$(CONFIG_$(SPL_TPL_)USE_ARCH_MEMMOVE) += memmove.o
 obj-$(CONFIG_$(SPL_TPL_)USE_ARCH_MEMCPY) += memcpy.o
 
 obj-$(CONFIG_$(SPL_TPL_)SEMIHOSTING) += semihosting.o
+
+# For Keystone Enclave
+ifdef CONFIG_SPL_BUILD
+obj-$(CONFIG_SPL_KEYSTONE_SECUREBOOT) += keystone.o ed25519/ sha3/
+endif
