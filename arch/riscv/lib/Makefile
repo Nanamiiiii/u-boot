@@ -46,3 +46,8 @@ obj-$(CONFIG_$(PHASE_)USE_ARCH_STRCMP) += strcmp_zbb.o
 obj-$(CONFIG_$(PHASE_)USE_ARCH_STRNCMP) += strncmp_zbb.o
 
 obj-$(CONFIG_$(PHASE_)SEMIHOSTING) += semihosting.o
+
+# For Keystone Enclave
+ifdef CONFIG_SPL_BUILD
+obj-$(CONFIG_SPL_KEYSTONE_SECUREBOOT) += keystone.o ed25519/ sha3/
+endif
